@@ -1,38 +1,46 @@
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import ChatRoom from '@/components/ChatRoom'
+import RoomHeader from '@/components/headers/room-header'
 import { createClient } from '@/utils/supabase/server'
 
-export default async function RoomPage(props: {
-	params: Promise<{ id: string }>
-}) {
-	const params = await props.params
-	const supabase = await createClient()
-	const {
-		data: { user },
-	} = await supabase.auth.getUser()
+export default function RoomPage(props: PageProps<'/rooms/[id]'>) {
+	const supabasePromise = createClient()
 
-	const { data: room } = await supabase
-		.from('rooms')
-		.select('*')
-		.eq('id', params.id)
-		.single()
+	// 1. A promise that resolves strictly to the Room Name (for the Header)
+	const roomNamePromise = Promise.all([supabasePromise, props.params])
+		.then(([supabase, params]) =>
+			supabase.from('rooms').select('name').eq('id', params.id).single(),
+		)
+		.then(({ data }) => {
+			if (!data) notFound()
+			return data.name
+		})
 
-	if (!room) {
-		return notFound()
-	}
+	// 2. A promise that resolves strictly to the User ID
+	const userIdPromise = supabasePromise
+		.then((supabase) => supabase.auth.getUser())
+		.then(({ data }) => data.user?.id || '')
+
+	// 3. A promise that resolves strictly to the Room ID (from the params)
+	const roomIdPromise = props.params.then((p) => p.id)
 
 	return (
 		<div className="flex h-full flex-col">
-			<header className="mb-6 flex items-center justify-between">
-				<div>
-					<h1 className="font-bold text-2xl text-primary-900">
-						{room.name}
-					</h1>
-					<p className="text-gray-500">Public Chat Room</p>
-				</div>
-			</header>
+			<Suspense
+				fallback={<div className="h-14 animate-pulse bg-gray-100" />}
+			>
+				<RoomHeader roomNamePromise={roomNamePromise} />
+			</Suspense>
 
-			<ChatRoom roomId={room.id} userId={user?.id || ''} />
+			<Suspense
+				fallback={<div className="flex-1 animate-pulse bg-gray-50" />}
+			>
+				<ChatRoom
+					roomIdPromise={roomIdPromise}
+					userIdPromise={userIdPromise}
+				/>
+			</Suspense>
 		</div>
 	)
 }

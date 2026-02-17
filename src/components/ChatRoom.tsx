@@ -1,22 +1,24 @@
 'use client'
 
 import { Send } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { use, useEffect, useRef, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import Avatar from './Avatar'
 
 export default function ChatRoom({
-	roomId,
-	userId,
+	roomIdPromise,
+	userIdPromise,
 }: {
-	roomId: string
-	userId: string
+	roomIdPromise: Promise<string>
+	userIdPromise: Promise<string>
 }) {
 	const [messages, setMessages] = useState<any[]>([])
 	const [content, setContent] = useState('')
 	const supabase = createClient()
 	const messagesEndRef = useRef<HTMLDivElement>(null)
 
+	const userId = use(userIdPromise)
+	const roomId = use(roomIdPromise)
 	useEffect(() => {
 		const fetchMessages = async () => {
 			const { data } = await supabase
