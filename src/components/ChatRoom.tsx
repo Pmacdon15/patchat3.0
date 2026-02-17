@@ -2,8 +2,13 @@
 
 import { Send } from 'lucide-react'
 import { use, useEffect, useRef, useState } from 'react'
+import type { Message, Profile } from '@/types'
 import { createClient } from '@/utils/supabase/client'
 import Avatar from './Avatar'
+
+type MessageWithProfile = Message & {
+	profiles: Pick<Profile, 'username' | 'display_name' | 'avatar_url'> | null
+}
 
 export default function ChatRoom({
 	roomIdPromise,
@@ -12,7 +17,7 @@ export default function ChatRoom({
 	roomIdPromise: Promise<string>
 	userIdPromise: Promise<string>
 }) {
-	const [messages, setMessages] = useState<any[]>([])
+	const [messages, setMessages] = useState<MessageWithProfile[]>([])
 	const [content, setContent] = useState('')
 	const supabase = createClient()
 	const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -86,7 +91,7 @@ export default function ChatRoom({
 	}
 
 	return (
-		<div className="card flex h-[calc(100vh-160px)] flex-col overflow-hidden p-0">
+		<div className="card flex h-full flex-1 flex-col overflow-hidden p-0">
 			<div className="flex-1 space-y-4 overflow-y-auto p-4">
 				{messages.map((message) => (
 					<div

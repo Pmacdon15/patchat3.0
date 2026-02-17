@@ -1,10 +1,8 @@
 import Link from 'next/link'
 import { login, signup } from '@/actions/auth'
 
-export default async function LoginPage(props: {
-	searchParams: Promise<{ message: string }>
-}) {
-	const searchParams = await props.searchParams
+export default function LoginPage() {
+	
 	return (
 		<div className="mx-auto flex min-h-screen w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
 			<div className="card bg-white p-8 shadow-xl">
@@ -78,11 +76,11 @@ export default async function LoginPage(props: {
 						Forgot password?
 					</Link>
 
-					{searchParams?.message && (
+					{/* {searchParams?.message && (
 						<p className="mt-4 rounded bg-primary-50 p-4 text-center text-primary-800 text-sm">
 							{searchParams.message}
 						</p>
-					)}
+					)} */}
 				</form>
 			</div>
 		</div>

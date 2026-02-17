@@ -3,12 +3,13 @@
 import { Search } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
+import type { Profile } from '@/types'
 import { createClient } from '@/utils/supabase/client'
 import Avatar from './Avatar'
 
 export default function UserSearch() {
 	const [query, setQuery] = useState('')
-	const [results, setResults] = useState<any[]>([])
+	const [results, setResults] = useState<Profile[]>([])
 	const [loading, setLoading] = useState(false)
 	const supabase = createClient()
 

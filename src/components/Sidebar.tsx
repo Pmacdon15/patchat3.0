@@ -1,31 +1,24 @@
-'use client'
-
 import { Home, LogOut, Plus, Settings, Shield, Users, X } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { signOut } from '@/actions/auth'
 import { createRoom } from '@/actions/rooms'
+import type { Profile, Room } from '@/types'
 import Avatar from './Avatar'
 
 export default function Sidebar({
-	rooms,
-	userProfile,
-	directMessages = [],
+	roomsPromise,
+	userProfilePromise,
+	directMessagesPromise,
 }: {
-	rooms: { id: string; name: string }[]
-	userProfile: {
-		username: string
-		display_name: string | null
-		avatar_url: string | null
-	} | null
-	directMessages?: {
-		id: string
-		username: string
-		display_name: string | null
-		avatar_url: string | null
-	}[]
+	roomsPromise: Promise<Room[]>
+	userProfilePromise: Promise<Profile | null>
+	directMessagesPromise: Promise<Profile[]>
 }) {
+	const rooms = use(roomsPromise)
+	const userProfile = use(userProfilePromise)
+	const directMessages = use(directMessagesPromise)
 	const pathname = usePathname()
 	const [isCreatingRoom, setIsCreatingRoom] = useState(false)
 	const [error, setError] = useState<string | null>(null)
@@ -35,13 +28,13 @@ export default function Sidebar({
 			setError(null)
 			await createRoom(formData)
 			setIsCreatingRoom(false)
-		} catch (e: any) {
-			setError(e.message)
+		} catch (e) {
+			setError(e instanceof Error ? e.message : 'Failed to create room')
 		}
 	}
 
 	return (
-		<div className="fixed top-0 left-0 z-40 flex h-screen w-64 flex-col border-primary-700 border-r bg-primary-800 text-white">
+		<div className="app-sidebar fixed top-0 left-0 z-40 flex h-screen w-64 flex-col border-primary-700 border-r bg-primary-800 text-white">
 			<div className="border-primary-700 border-b p-6">
 				<div className="mb-4 flex items-center gap-3">
 					<Avatar

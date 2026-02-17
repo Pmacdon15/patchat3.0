@@ -63,3 +63,54 @@ body {
 		border-color: #262626;
 	}
 }
+
+html,
+body {
+	height: 100%;
+	overflow: hidden; /* Prevent page-level scroll, components will handle their own scrolling */
+}
+
+@media (max-width: 640px) {
+	html,
+	body {
+		overflow: auto; /* Allow scrolling on mobile */
+	}
+}
+
+/* Layout Utilities */
+.main-content {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 4rem; /* Match Navbar height */
+	width: 100%;
+	min-height: 0; /* Allow flex child to shrink */
+	overflow: hidden;
+}
+
+.max-width-container {
+	width: 100%;
+	max-width: 72rem;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 1rem 1.5rem;
+	min-height: 0; /* Important for internal scroll components */
+}
+
+body:has(.app-sidebar) .main-content {
+	padding-left: 16rem; /* Sidebar width */
+	padding-right: 0;
+}
+
+body:has(.app-sidebar) .footer-container {
+	padding-left: 16rem;
+}
+
+.footer-container {
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	background: var(--background);
+	border-top: 1px solid #e5e7eb;
+}

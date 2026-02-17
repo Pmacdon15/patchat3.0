@@ -2,7 +2,7 @@ import { Github, Mail } from 'lucide-react'
 
 export default function Footer() {
 	return (
-		<footer className="w-full bg-gray-50 border-t border-gray-100 px-4 py-8">
+		<footer className="bg-gray-50 border-t border-gray-100 px-4 py-4 w-full">
 			<div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 md:flex-row">
 				<div className="text-sm text-gray-500">
 					© {new Date().getFullYear()} PatChat 3.0. All rights

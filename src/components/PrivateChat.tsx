@@ -4,22 +4,16 @@ import { Send } from 'lucide-react'
 import { use, useEffect, useRef, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import Avatar from './Avatar'
+import type { PrivateMessage, Profile } from '@/types'
 
 export default function PrivateChat({
 	currentUserIdPromise,
 	otherUserPromise,
 }: {
 	currentUserIdPromise: Promise<string>
-	otherUserPromise: Promise<{
-		id: string
-		username: string
-		display_name?: string
-		avatar_url?: string
-	}>
+	otherUserPromise: Promise<Profile>
 }) {
-	const [messages, setMessages] = useState<
-		{ id: string; sender_id: string; content: string; created_at: string }[]
-	>([])
+	const [messages, setMessages] = useState<PrivateMessage[]>([])
 	const [content, setContent] = useState('')
 	const [isBlocked, setIsBlocked] = useState(false)
 	const [pmDisabled, setPmDisabled] = useState(false)
@@ -76,20 +70,8 @@ export default function PrivateChat({
 					table: 'private_messages',
 				},
 				(payload) => {
-					const newMsg = payload.new as {
-						id: string
-						sender_id: string
-						content: string
-						created_at: string
-					}
-					// if (
-					// 	(newMsg.sender_id === currentUserId &&
-					// 		newMsg.sender_id === otherUserId) ||
-					// 	(newMsg.sender_id === otherUserId &&
-					// 		newMsg.sender_id === currentUserId)
-					// ) {
+					const newMsg = payload.new as PrivateMessage
 					setMessages((prev) => [...prev, newMsg])
-					// }
 				},
 			)
 			.subscribe()
@@ -141,7 +123,7 @@ export default function PrivateChat({
 	}
 
 	return (
-		<div className="card flex h-[calc(100vh-200px)] flex-col overflow-hidden p-0">
+		<div className="card flex h-full flex-1 flex-col overflow-hidden p-0">
 			<div className="flex items-center gap-3 border-primary-100 border-b p-4">
 				<Avatar
 					name={otherUser?.display_name || otherUser?.username}
