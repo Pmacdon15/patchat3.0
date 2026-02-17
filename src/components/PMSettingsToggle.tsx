@@ -1,14 +1,16 @@
 'use client'
-
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { updatePMSettings } from '@/actions/settings'
 
 export default function PMSettingsToggle({
-	initialEnabled,
+	settingsPromise,
 }: {
-	initialEnabled: boolean
+	settingsPromise: Promise<{ allow_private_messages: boolean } | null>
 }) {
-	const [enabled, setEnabled] = useState(initialEnabled)
+	const settings = use(settingsPromise)
+	const [enabled, setEnabled] = useState(
+		settings?.allow_private_messages ?? true,
+	)
 
 	const handleToggle = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		const newVal = e.target.checked

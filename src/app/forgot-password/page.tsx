@@ -1,10 +1,12 @@
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { requestPasswordReset } from '@/actions/auth'
+import Message from '@/components/messages/message'
 
-export default async function ForgotPasswordPage(props: {
-	searchParams: Promise<{ message: string }>
-}) {
-	const searchParams = await props.searchParams
+export default async function ForgotPasswordPage(
+	props: PageProps<'/forgot-password'>
+) {
+	const messagePromise = props.searchParams.then((params) => params.message)
 	return (
 		<div className="mx-auto flex min-h-screen w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
 			<form className="flex w-full flex-1 animate-in flex-col justify-center gap-2 text-foreground">
@@ -21,6 +23,7 @@ export default async function ForgotPasswordPage(props: {
 				<button
 					className="btn-primary mb-2"
 					formAction={requestPasswordReset}
+					type="button"
 				>
 					Send Reset Link
 				</button>
@@ -30,11 +33,9 @@ export default async function ForgotPasswordPage(props: {
 				>
 					Back to Sign In
 				</Link>
-				{searchParams?.message && (
-					<p className="mt-4 bg-foreground/10 p-4 text-center text-foreground">
-						{searchParams.message}
-					</p>
-				)}
+				<Suspense>
+					<Message messagePromise={messagePromise} />
+				</Suspense>
 			</form>
 		</div>
 	)

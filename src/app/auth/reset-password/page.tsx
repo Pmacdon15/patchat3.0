@@ -1,9 +1,11 @@
+import { Suspense } from 'react'
 import { updatePassword } from '@/actions/auth'
+import Message from '@/components/messages/message'
 
-export default async function ResetPasswordPage(props: {
-	searchParams: Promise<{ message: string }>
-}) {
-	const searchParams = await props.searchParams
+export default async function ResetPasswordPage(
+	props: PageProps<'/auth/reset-password'>,
+) {
+	const messagePromise = props.searchParams.then((params) => params.message)
 	return (
 		<div className="mx-auto flex min-h-screen w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
 			<form className="flex w-full flex-1 animate-in flex-col justify-center gap-2 text-foreground">
@@ -21,14 +23,13 @@ export default async function ResetPasswordPage(props: {
 				<button
 					className="btn-primary mb-2"
 					formAction={updatePassword}
+					type="button"
 				>
 					Update Password
 				</button>
-				{searchParams?.message && (
-					<p className="mt-4 bg-foreground/10 p-4 text-center text-foreground">
-						{searchParams.message}
-					</p>
-				)}
+				<Suspense>
+					<Message messagePromise={messagePromise} />
+				</Suspense>
 			</form>
 		</div>
 	)

@@ -1,17 +1,20 @@
 'use client'
-
 import { UserX } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { use } from 'react'
 import { unblockUser } from '@/actions/settings'
 
 export default function BlockListManager({
-	blocks,
+	blocksPromise,
 }: {
-	blocks: {
-		blocked_id: string
-		profiles: { username: string; display_name?: string }
-	}[]
+	blocksPromise: Promise<
+		{
+			blocked_id: string
+			profiles: { username: string; display_name?: string }
+		}[]
+	>
 }) {
+	const blocks = use(blocksPromise)
 	const router = useRouter()
 
 	const handleUnblock = async (userId: string) => {
