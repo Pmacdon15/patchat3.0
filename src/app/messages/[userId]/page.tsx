@@ -1,46 +1,38 @@
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import PrivateChat from '@/components/PrivateChat'
 import { createClient } from '@/utils/supabase/server'
 
-export default async function PrivateMessagePage(props: {
-	params: Promise<{ userId: string }>
-}) {
-	const params = await props.params
-	const supabase = await createClient()
-	const {
-		data: { user },
-	} = await supabase.auth.getUser()
+export default function PrivateMessagePage(props: PageProps<'/messages/[userId]'>) {
+    const supabasePromise = createClient()
 
-	if (user?.id === params.userId) {
-		return (
-			<div className="card p-12 text-center">
-				<p className="text-gray-500">
-					You cannot start a private message with yourself.
-				</p>
-			</div>
-		)
-	}
+    // 1. Get the current User ID
+    const currentUserIdPromise = supabasePromise
+        .then((supabase) => supabase.auth.getUser())
+        .then(({ data }) => data.user?.id || '')
 
-	const { data: otherUser } = await supabase
-		.from('profiles')
-		.select('*')
-		.eq('id', params.userId)
-		.single()
+    // 2. Get the "Other User" profile
+    const otherUserPromise = Promise.all([supabasePromise, props.params])
+        .then(([supabase, params]) => 
+            supabase.from('profiles').select('*').eq('id', params.userId).single()
+        )
+        .then(({ data }) => {
+            if (!data) notFound()
+            return data
+        })
 
-	if (!otherUser) {
-		return notFound()
-	}
-
-	return (
-		<div className="mx-auto max-w-4xl">
-			<h1 className="mb-6 font-bold text-2xl text-primary-900">
-				Private Message
-			</h1>
-			<PrivateChat
-				currentUserId={user?.id || ''}
-				otherUser={otherUser}
-				otherUserId={otherUser.id}
-			/>
-		</div>
-	)
+    return (
+        <div className="mx-auto max-w-4xl">
+            <h1 className="mb-6 font-bold text-2xl text-primary-900">
+                Private Message
+            </h1>
+            
+            <Suspense fallback={<div className="h-64 animate-pulse rounded-xl bg-gray-50" />}>
+               <PrivateChat
+                    currentUserIdPromise={currentUserIdPromise}
+                    otherUserPromise={otherUserPromise}
+                />
+            </Suspense>
+        </div>
+    )
 }

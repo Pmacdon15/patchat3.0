@@ -1,18 +1,21 @@
 'use client'
 
 import { Send } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { use, useEffect, useRef, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import Avatar from './Avatar'
 
 export default function PrivateChat({
-	currentUserId,
-	otherUserId,
-	otherUser,
+	currentUserIdPromise,
+	otherUserPromise,
 }: {
-	currentUserId: string
-	otherUserId: string
-	otherUser: { username: string; display_name?: string; avatar_url?: string }
+	currentUserIdPromise: Promise<string>
+	otherUserPromise: Promise<{
+		id: string
+		username: string
+		display_name?: string
+		avatar_url?: string
+	}>
 }) {
 	const [messages, setMessages] = useState<
 		{ id: string; sender_id: string; content: string; created_at: string }[]
@@ -23,13 +26,16 @@ export default function PrivateChat({
 	const supabase = createClient()
 	const messagesEndRef = useRef<HTMLDivElement>(null)
 
+	const currentUserId = use(currentUserIdPromise)
+	const otherUser = use(otherUserPromise)
+
 	useEffect(() => {
 		const checkStatus = async () => {
 			// Check if blocked
 			const { data: blockData } = await supabase
 				.from('blocks')
 				.select('*')
-				.match({ blocker_id: otherUserId, blocked_id: currentUserId })
+				.match({ blocker_id: otherUser.id, blocked_id: currentUserId })
 				.single()
 
 			if (blockData) setIsBlocked(true)
@@ -38,7 +44,7 @@ export default function PrivateChat({
 			const { data: settings } = await supabase
 				.from('user_settings')
 				.select('allow_private_messages')
-				.eq('user_id', otherUserId)
+				.eq('user_id', otherUser.id)
 				.single()
 
 			if (settings && !settings.allow_private_messages)
@@ -50,7 +56,7 @@ export default function PrivateChat({
 				.from('private_messages')
 				.select('*')
 				.or(
-					`and(sender_id.eq.${currentUserId},receiver_id.eq.${otherUserId}),and(sender_id.eq.${otherUserId},receiver_id.eq.${currentUserId})`,
+					`and(sender_id.eq.${currentUserId},receiver_id.eq.${otherUser.id}),and(sender_id.eq.${otherUser.id},receiver_id.eq.${currentUserId})`,
 				)
 				.order('created_at', { ascending: true })
 
@@ -61,7 +67,7 @@ export default function PrivateChat({
 		fetchMessages()
 
 		const channel = supabase
-			.channel(`pm:${[currentUserId, otherUserId].sort().join('-')}`)
+			.channel(`pm:${[currentUserId, otherUser.id].sort().join('-')}`)
 			.on(
 				'postgres_changes',
 				{
@@ -70,15 +76,20 @@ export default function PrivateChat({
 					table: 'private_messages',
 				},
 				(payload) => {
-					const newMsg = payload.new
-					if (
-						(newMsg.sender_id === currentUserId &&
-							newMsg.receiver_id === otherUserId) ||
-						(newMsg.sender_id === otherUserId &&
-							newMsg.receiver_id === currentUserId)
-					) {
-						setMessages((prev) => [...prev, newMsg])
+					const newMsg = payload.new as {
+						id: string
+						sender_id: string
+						content: string
+						created_at: string
 					}
+					// if (
+					// 	(newMsg.sender_id === currentUserId &&
+					// 		newMsg.sender_id === otherUserId) ||
+					// 	(newMsg.sender_id === otherUserId &&
+					// 		newMsg.sender_id === currentUserId)
+					// ) {
+					setMessages((prev) => [...prev, newMsg])
+					// }
 				},
 			)
 			.subscribe()
@@ -86,19 +97,19 @@ export default function PrivateChat({
 		return () => {
 			supabase.removeChannel(channel)
 		}
-	}, [currentUserId, otherUserId, supabase])
+	}, [currentUserId, otherUser.id, supabase])
 
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
 	}, [])
 
-	const sendMessage = async (e: React.FormEvent) => {
+	const sendMessage = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		if (!content.trim() || isBlocked || pmDisabled) return
 
 		const { error } = await supabase.from('private_messages').insert({
 			sender_id: currentUserId,
-			receiver_id: otherUserId,
+			receiver_id: otherUser.id,
 			content: content.trim(),
 		})
 
