@@ -2,14 +2,11 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Suspense } from 'react'
 import './globals.css'
-import {
-	FooterWrapper,
-	NavWrapper,
-	SidebarWrapper,
-} from '@/components/LayoutWrappers'
+import { NavWrapper, SidebarWrapper } from '@/components/LayoutWrappers'
 import Providers from '@/components/providers/providers'
 import type { Profile } from '@/types'
 import { createClient } from '@/utils/supabase/server'
+import Footer from '@/components/Footer'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -142,9 +139,7 @@ export default function RootLayout({
 					<main className="flex min-h-0 w-full flex-1 flex-col items-center overflow-hidden pt-16 md:pt-14">
 						<div className="flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 md:px-2">
 							<Providers>{children}</Providers>
-							<Suspense>
-								<FooterWrapper userPromise={userPromise} />
-							</Suspense>
+							<Footer />
 						</div>
 					</main>
 				</div>
