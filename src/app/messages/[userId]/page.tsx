@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
-import PrivateChat from '@/components/PrivateChat'
 import PrivateChatHeader from '@/components/headers/private-chat-header'
+import PrivateChat from '@/components/PrivateChat'
 import { createClient } from '@/utils/supabase/server'
 
 export default function PrivateMessagePage(

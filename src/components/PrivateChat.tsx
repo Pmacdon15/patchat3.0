@@ -96,7 +96,7 @@ export default function PrivateChat({
 
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-	}, [messages])
+	}, [])
 
 	const sendMessage = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
