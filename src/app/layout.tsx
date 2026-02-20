@@ -138,7 +138,9 @@ export default function RootLayout({
 					</Suspense>
 					<main className="flex w-full flex-1 flex-col items-center overflow-hidden pt-4">
 						<div className="flex w-full flex-1 flex-col px-10">
-							<Providers>{children}</Providers>
+							<div className="flex flex-1 flex-col">
+								<Providers>{children}</Providers>
+							</div>
 							<Footer />
 						</div>
 					</main>

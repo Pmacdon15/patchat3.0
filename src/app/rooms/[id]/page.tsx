@@ -26,7 +26,7 @@ export default function RoomPage(props: PageProps<'/rooms/[id]'>) {
 	const roomIdPromise = props.params.then((p) => p.id)
 
 	return (
-		<div className="flex h-full flex-col">
+		<div className="flex h-full flex-col justify-center">
 			<Suspense
 				fallback={<div className="h-14 animate-pulse bg-gray-100" />}
 			>
