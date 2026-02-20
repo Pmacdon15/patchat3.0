@@ -143,7 +143,9 @@ export default function Sidebar({
 							url={profile.avatar_url}
 						/>
 						<span className="truncate">
-							{profile.display_name || profile.username}
+							{profile.id === userProfile?.id
+								? 'You (Self)'
+								: profile.display_name || profile.username}
 						</span>
 					</Link>
 				))}

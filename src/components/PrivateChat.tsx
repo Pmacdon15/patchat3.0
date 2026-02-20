@@ -96,7 +96,7 @@ export default function PrivateChat({
 
 	useEffect(() => {
 		messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-	}, [])
+	}, [messages])
 
 	const sendMessage = async (e: React.SubmitEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -176,7 +176,6 @@ export default function PrivateChat({
 				))}
 				<div ref={messagesEndRef} />
 			</div>
-
 
 			<form
 				className="flex gap-2 border-primary-100 border-t p-3 md:p-4"

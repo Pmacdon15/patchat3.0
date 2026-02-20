@@ -83,6 +83,12 @@ export default function RootLayout({
 							| null
 					}) => {
 						if (!pmData) return []
+						const userSentToSelf = pmData.some(
+							(pm) =>
+								pm.sender_id === user.id &&
+								pm.receiver_id === user.id,
+						)
+
 						const otherUserIds = Array.from(
 							new Set(
 								pmData
@@ -95,6 +101,10 @@ export default function RootLayout({
 									.filter((id) => id !== user.id),
 							),
 						)
+
+						if (userSentToSelf) {
+							otherUserIds.push(user.id)
+						}
 
 						if (otherUserIds.length === 0) return []
 
