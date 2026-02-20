@@ -136,8 +136,8 @@ export default function RootLayout({
 							userPromise={userPromise}
 						/>
 					</Suspense>
-					<main className="flex min-h-0 w-full flex-1 flex-col items-center overflow-hidden pt-16 md:pt-14">
-						<div className="flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 md:px-2">
+					<main className="flex w-full flex-1 flex-col items-center overflow-hidden pt-4">
+						<div className="flex w-full flex-1 flex-col px-10">
 							<Providers>{children}</Providers>
 							<Footer />
 						</div>

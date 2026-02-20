@@ -5,7 +5,7 @@ export default async function RoomHeader({
 }) {
 	const roomName = await roomNamePromise
 	return (
-		<header className="mb-6 flex items-center justify-between">
+		<header className="flex items-center justify-between">
 			<div>
 				<h1 className="font-bold text-2xl text-primary-900">
 					{roomName}
