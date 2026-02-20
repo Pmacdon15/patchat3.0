@@ -71,7 +71,20 @@ export default function PrivateChat({
 				},
 				(payload) => {
 					const newMsg = payload.new as PrivateMessage
-					setMessages((prev) => [...prev, newMsg])
+					// Only add messages that belong to this conversation
+					if (
+						(newMsg.sender_id === currentUserId &&
+							newMsg.receiver_id === otherUser.id) ||
+						(newMsg.sender_id === otherUser.id &&
+							newMsg.receiver_id === currentUserId)
+					) {
+						setMessages((prev) => {
+							// Avoid duplicates
+							if (prev.some((m) => m.id === newMsg.id))
+								return prev
+							return [...prev, newMsg]
+						})
+					}
 				},
 			)
 			.subscribe()
@@ -124,50 +137,46 @@ export default function PrivateChat({
 
 	return (
 		<div className="flex h-full flex-1 flex-col overflow-hidden rounded-lg border border-gray-200 bg-white p-0 dark:border-neutral-800">
-			<div className="flex items-center gap-3 border-primary-100 border-b p-3 md:p-4">
-				<Avatar
-					name={otherUser?.display_name || otherUser?.username}
-					url={otherUser?.avatar_url}
-				/>
-				<div>
-					<h2 className="font-semibold text-sm md:text-base">
-						{otherUser?.display_name || otherUser?.username}
-					</h2>
-					<p className="text-[10px] text-gray-500 md:text-xs">
-						@{otherUser?.username}
-					</p>
-				</div>
-			</div>
-
 			<div className="flex-1 space-y-4 overflow-y-auto p-3 md:p-4">
 				{messages.map((message) => (
 					<div
 						className={`flex ${message.sender_id === currentUserId ? 'flex-row-reverse' : 'flex-row'} items-end gap-2`}
 						key={message.id}
 					>
-						{message.sender_id !== currentUserId && (
-							<Avatar
-								name={
-									otherUser?.display_name ||
-									otherUser?.username
-								}
-								size="sm"
-								url={otherUser?.avatar_url}
-							/>
-						)}
+						<Avatar
+							name={
+								message.sender_id === currentUserId
+									? 'You'
+									: otherUser?.display_name ||
+										otherUser?.username
+							}
+							size="xs"
+							url={
+								message.sender_id === currentUserId
+									? null // We don't have current user's avatar url here easily, but we could pass it
+									: otherUser?.avatar_url
+							}
+						/>
 						<div
-							className={`max-w-[70%] rounded-2xl px-4 py-2 ${
+							className={`max-w-[85%] rounded-2xl px-3 py-1.5 md:max-w-[70%] md:px-4 md:py-2 ${
 								message.sender_id === currentUserId
 									? 'rounded-br-none bg-primary-600 text-white'
 									: 'rounded-bl-none bg-primary-100 text-primary-900'
 							}`}
 						>
+							<div className="mb-0.5 font-bold text-[9px] uppercase tracking-wider opacity-75 md:text-[10px]">
+								{message.sender_id === currentUserId
+									? 'You'
+									: otherUser?.display_name ||
+										otherUser?.username}
+							</div>
 							<p className="text-sm">{message.content}</p>
 						</div>
 					</div>
 				))}
 				<div ref={messagesEndRef} />
 			</div>
+
 
 			<form
 				className="flex gap-2 border-primary-100 border-t p-3 md:p-4"

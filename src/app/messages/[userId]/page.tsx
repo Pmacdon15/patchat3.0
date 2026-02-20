@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import PrivateChat from '@/components/PrivateChat'
+import PrivateChatHeader from '@/components/headers/private-chat-header'
 import { createClient } from '@/utils/supabase/server'
 
 export default function PrivateMessagePage(
@@ -28,15 +29,15 @@ export default function PrivateMessagePage(
 		})
 
 	return (
-		<div className="mx-auto max-w-4xl">
-			<h1 className="mb-6 font-bold text-2xl text-primary-900">
-				Private Message
-			</h1>
+		<div className="flex h-full flex-col">
+			<Suspense
+				fallback={<div className="h-14 animate-pulse bg-gray-100" />}
+			>
+				<PrivateChatHeader otherUserPromise={otherUserPromise} />
+			</Suspense>
 
 			<Suspense
-				fallback={
-					<div className="h-64 animate-pulse rounded-xl bg-gray-50" />
-				}
+				fallback={<div className="flex-1 animate-pulse bg-gray-50" />}
 			>
 				<PrivateChat
 					currentUserIdPromise={currentUserIdPromise}
