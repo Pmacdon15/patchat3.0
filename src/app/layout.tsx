@@ -2,11 +2,9 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Suspense } from 'react'
 import './globals.css'
-import {
-	FooterWrapper,
-	NavWrapper,
-	SidebarWrapper,
-} from '@/components/LayoutWrappers'
+import Footer from '@/components/Footer'
+import { NavWrapper, SidebarWrapper } from '@/components/LayoutWrappers'
+import Providers from '@/components/providers/providers'
 import type { Profile } from '@/types'
 import { createClient } from '@/utils/supabase/server'
 
@@ -138,12 +136,10 @@ export default function RootLayout({
 							userPromise={userPromise}
 						/>
 					</Suspense>
-					<main className="flex min-h-0 w-full flex-1 flex-col items-center overflow-hidden pt-16 md:pt-14">
-						<div className="flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 md:px-2">
-							{children}
-							<Suspense>
-								<FooterWrapper userPromise={userPromise} />
-							</Suspense>
+					<main className="flex w-full flex-1 flex-col items-center overflow-hidden pt-4">
+						<div className="flex w-full flex-1 flex-col px-10">
+							<Providers>{children}</Providers>
+							<Footer />
 						</div>
 					</main>
 				</div>

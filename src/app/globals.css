@@ -30,15 +30,14 @@ body {
 	background: var(--background);
 }
 
-html,
+/* html,
 body {
 	height: 100%;
-	overflow: hidden; /* Prevent page-level scroll, components will handle their own scrolling */
-}
-
-@media (max-width: 640px) {
+	/* overflow: hidden; */
+/* } */
+/* @media (max-width: 640px) {
 	html,
 	body {
 		overflow: auto; /* Allow scrolling on mobile */
-	}
-}
+/* } */
+/* } */
