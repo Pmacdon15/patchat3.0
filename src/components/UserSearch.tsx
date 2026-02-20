@@ -25,7 +25,7 @@ export default function UserSearch() {
 		<div className="w-full">
 			<div className="relative mb-4">
 				<input
-					className="pr-10 rounded-md p-2"
+					className="rounded-md p-2 pr-10"
 					onChange={(e) => {
 						handleTyping(e.target.value)
 					}}

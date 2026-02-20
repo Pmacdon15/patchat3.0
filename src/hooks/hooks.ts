@@ -24,6 +24,6 @@ export const useFetchUsers = (searchTerm: string) => {
 	return useQuery({
 		queryKey: ['users', searchTerm],
 		queryFn: () => fetchUsersDb(searchTerm),
-		enabled: !!searchTerm
+		enabled: !!searchTerm,
 	})
 }
