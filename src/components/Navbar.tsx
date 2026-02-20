@@ -29,7 +29,10 @@ export default function Navbar({
 						>
 							Log In
 						</Link>
-						<Link className="btn-primary" href="/login">
+						<Link
+							className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:opacity-90"
+							href="/login"
+						>
 							Sign Up
 						</Link>
 					</div>

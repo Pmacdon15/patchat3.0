@@ -14,7 +14,7 @@ export default function AdminAuthWrapper({
 
 	if (!isAdmin) {
 		return (
-			<div className="card mx-auto mt-20 max-w-xl border-red-200 bg-red-50 p-8 text-center">
+			<div className="mx-auto mt-20 max-w-xl rounded-lg border border-gray-200 border-red-200 bg-red-50 bg-white p-8 text-center dark:border-neutral-800">
 				<ShieldAlert className="mx-auto mb-4 text-red-500" size={48} />
 				<h1 className="mb-2 font-bold text-2xl text-red-900">
 					Access Denied

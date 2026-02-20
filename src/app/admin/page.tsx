@@ -55,7 +55,7 @@ export default function AdminPage() {
 						</div>
 					</div>
 
-					<div className="card">
+					<div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-neutral-800">
 						<h2 className="mb-6 flex items-center gap-2 font-semibold text-xl">
 							<Users className="text-primary-600" size={20} />
 							User Management

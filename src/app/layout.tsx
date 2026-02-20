@@ -128,13 +128,15 @@ export default function RootLayout({
 							userPromise={userPromise}
 						/>
 					</Suspense>
-					<main className="main-content">
-						<div className="max-width-container">{children}</div>
+					<main className="flex min-h-0 w-full flex-1 flex-col items-center overflow-hidden pt-16 md:pt-14">
+						<div className="flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 md:px-2">
+							{children}
+							<Suspense>
+								<FooterWrapper userPromise={userPromise} />
+							</Suspense>
+						</div>
 					</main>
 				</div>
-				<Suspense>
-					<FooterWrapper userPromise={userPromise} />
-				</Suspense>
 			</body>
 		</html>
 	)

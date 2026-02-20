@@ -1,7 +1,7 @@
 export default async function Message({
 	messagePromise,
 }: {
-	messagePromise:Promise<string | string[] | undefined>
+	messagePromise: Promise<string | string[] | undefined>
 }) {
 	const message = await messagePromise
 	return (

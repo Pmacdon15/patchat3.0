@@ -10,7 +10,7 @@ export default function HomePage() {
 			</Suspense>
 
 			<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-				<div className="card">
+				<div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-neutral-800">
 					<h2 className="mb-4 flex items-center gap-2 font-semibold text-xl">
 						<span className="h-6 w-2 rounded-full bg-primary-400"></span>
 						Public Rooms
@@ -19,12 +19,15 @@ export default function HomePage() {
 						Join current conversations or create your own room to
 						discuss topics with everyone.
 					</p>
-					<button className="btn-primary w-full" type="button">
+					<button
+						className="w-full rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:opacity-90"
+						type="button"
+					>
 						Browse All Rooms
 					</button>
 				</div>
 
-				<div className="card">
+				<div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-neutral-800">
 					<h2 className="mb-4 flex items-center gap-2 font-semibold text-xl">
 						<span className="h-6 w-2 rounded-full bg-primary-400"></span>
 						Private Messages

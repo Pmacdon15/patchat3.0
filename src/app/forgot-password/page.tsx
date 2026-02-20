@@ -4,7 +4,7 @@ import { requestPasswordReset } from '@/actions/auth'
 import Message from '@/components/messages/message'
 
 export default async function ForgotPasswordPage(
-	props: PageProps<'/forgot-password'>
+	props: PageProps<'/forgot-password'>,
 ) {
 	const messagePromise = props.searchParams.then((params) => params.message)
 	return (
@@ -15,13 +15,13 @@ export default async function ForgotPasswordPage(
 					Email Address
 				</label>
 				<input
-					className="input-field mb-6"
+					className="mb-6 w-full rounded-md border border-gray-300 bg-transparent p-2"
 					name="email"
 					placeholder="you@example.com"
 					required
 				/>
 				<button
-					className="btn-primary mb-2"
+					className="mb-2 rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:opacity-90"
 					formAction={requestPasswordReset}
 					type="button"
 				>

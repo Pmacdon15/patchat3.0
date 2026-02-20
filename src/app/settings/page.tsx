@@ -55,7 +55,7 @@ export default function SettingsPage() {
 			</h1>
 
 			<div className="space-y-8">
-				<section className="card">
+				<section className="rounded-lg border border-gray-200 bg-white p-6 dark:border-neutral-800">
 					<h2 className="mb-4 font-semibold text-xl">Privacy</h2>
 					<div className="flex items-center justify-between">
 						<div>
@@ -80,7 +80,7 @@ export default function SettingsPage() {
 					</div>
 				</section>
 
-				<section className="card">
+				<section className="rounded-lg border border-gray-200 bg-white p-6 dark:border-neutral-800">
 					<h2 className="mb-4 font-semibold text-xl">Block List</h2>
 					<Suspense
 						fallback={

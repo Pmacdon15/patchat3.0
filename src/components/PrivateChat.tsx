@@ -2,9 +2,9 @@
 
 import { Send } from 'lucide-react'
 import { use, useEffect, useRef, useState } from 'react'
+import type { PrivateMessage, Profile } from '@/types'
 import { createClient } from '@/utils/supabase/client'
 import Avatar from './Avatar'
-import type { PrivateMessage, Profile } from '@/types'
 
 export default function PrivateChat({
 	currentUserIdPromise,
@@ -104,7 +104,7 @@ export default function PrivateChat({
 
 	if (isBlocked) {
 		return (
-			<div className="card flex items-center justify-center bg-gray-50 p-12">
+			<div className="flex items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-12 dark:border-neutral-800">
 				<p className="text-gray-500 italic">
 					You cannot message this user.
 				</p>
@@ -114,7 +114,7 @@ export default function PrivateChat({
 
 	if (pmDisabled) {
 		return (
-			<div className="card flex items-center justify-center bg-gray-50 p-12">
+			<div className="flex items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-12 dark:border-neutral-800">
 				<p className="text-gray-500 italic">
 					This user has disabled private messages.
 				</p>
@@ -123,23 +123,23 @@ export default function PrivateChat({
 	}
 
 	return (
-		<div className="card flex h-full flex-1 flex-col overflow-hidden p-0">
-			<div className="flex items-center gap-3 border-primary-100 border-b p-4">
+		<div className="flex h-full flex-1 flex-col overflow-hidden rounded-lg border border-gray-200 bg-white p-0 dark:border-neutral-800">
+			<div className="flex items-center gap-3 border-primary-100 border-b p-3 md:p-4">
 				<Avatar
 					name={otherUser?.display_name || otherUser?.username}
 					url={otherUser?.avatar_url}
 				/>
 				<div>
-					<h2 className="font-semibold">
+					<h2 className="font-semibold text-sm md:text-base">
 						{otherUser?.display_name || otherUser?.username}
 					</h2>
-					<p className="text-gray-500 text-xs">
+					<p className="text-[10px] text-gray-500 md:text-xs">
 						@{otherUser?.username}
 					</p>
 				</div>
 			</div>
 
-			<div className="flex-1 space-y-4 overflow-y-auto p-4">
+			<div className="flex-1 space-y-4 overflow-y-auto p-3 md:p-4">
 				{messages.map((message) => (
 					<div
 						className={`flex ${message.sender_id === currentUserId ? 'flex-row-reverse' : 'flex-row'} items-end gap-2`}
@@ -170,26 +170,26 @@ export default function PrivateChat({
 			</div>
 
 			<form
-				className="flex gap-2 border-primary-100 border-t p-4"
+				className="flex gap-2 border-primary-100 border-t p-3 md:p-4"
 				onSubmit={sendMessage}
 			>
 				<input
-					className="input-field"
+					className="w-full rounded-md border border-gray-300 bg-transparent px-2 py-1.5 text-sm md:py-2 md:text-base"
 					disabled={isBlocked || pmDisabled}
 					id="private-message"
 					name="content"
 					onChange={(e) => setContent(e.target.value)}
-					placeholder="Send a private message..."
+					placeholder="Message..."
 					type="text"
 					value={content}
 				/>
 				<button
-					className="btn-primary flex items-center gap-2 disabled:bg-gray-300"
+					className="flex items-center gap-2 rounded-md bg-blue-600 px-3 py-2 font-medium text-white hover:opacity-90 disabled:bg-gray-300 md:px-4"
 					disabled={isBlocked || pmDisabled}
 					type="submit"
 				>
-					<Send size={18} />
-					<span>Send</span>
+					<Send className="md:h-[18px] md:w-[18px]" size={16} />
+					<span className="hidden md:inline">Send</span>
 				</button>
 			</form>
 		</div>

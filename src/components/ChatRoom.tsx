@@ -91,8 +91,8 @@ export default function ChatRoom({
 	}
 
 	return (
-		<div className="card flex h-full flex-1 flex-col overflow-hidden p-0">
-			<div className="flex-1 space-y-4 overflow-y-auto p-4">
+		<div className="flex h-full flex-1 flex-col overflow-hidden rounded-lg border border-gray-200 bg-white p-0 dark:border-neutral-800">
+			<div className="flex-1 space-y-4 overflow-y-auto p-3 md:p-4">
 				{messages.map((message) => (
 					<div
 						className={`flex ${message.user_id === userId ? 'flex-row-reverse' : 'flex-row'} items-end gap-2`}
@@ -103,17 +103,17 @@ export default function ChatRoom({
 								message.profiles?.display_name ||
 								message.profiles?.username
 							}
-							size="sm"
+							size="xs"
 							url={message.profiles?.avatar_url}
 						/>
 						<div
-							className={`max-w-[70%] rounded-2xl px-4 py-2 ${
+							className={`max-w-[85%] rounded-2xl px-3 py-1.5 md:max-w-[70%] md:px-4 md:py-2 ${
 								message.user_id === userId
 									? 'rounded-br-none bg-primary-600 text-white'
 									: 'rounded-bl-none bg-primary-100 text-primary-900'
 							}`}
 						>
-							<div className="mb-1 font-bold text-[10px] uppercase tracking-wider opacity-75">
+							<div className="mb-0.5 font-bold text-[9px] uppercase tracking-wider opacity-75 md:text-[10px]">
 								{message.profiles?.display_name ||
 									message.profiles?.username}
 							</div>
@@ -126,24 +126,24 @@ export default function ChatRoom({
 			</div>
 
 			<form
-				className="flex gap-2 border-primary-100 border-t p-4"
+				className="flex gap-2 border-primary-100 border-t p-3 md:p-4"
 				onSubmit={sendMessage}
 			>
 				<input
-					className="input-field"
+					className="w-full rounded-md border border-gray-300 bg-transparent px-2 py-1.5 text-sm md:py-2 md:text-base"
 					id="chat-message"
 					name="content"
 					onChange={(e) => setContent(e.target.value)}
-					placeholder="Type your message..."
+					placeholder="Message..."
 					type="text"
 					value={content}
 				/>
 				<button
-					className="btn-primary flex items-center gap-2"
+					className="flex items-center gap-2 rounded-md bg-blue-600 px-3 py-2 font-medium text-white hover:opacity-90 md:px-4"
 					type="submit"
 				>
-					<Send size={18} />
-					<span>Send</span>
+					<Send className="md:h-[18px] md:w-[18px]" size={16} />
+					<span className="hidden md:inline">Send</span>
 				</button>
 			</form>
 		</div>

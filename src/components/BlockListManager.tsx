@@ -24,7 +24,7 @@ export default function BlockListManager({
 
 	if (!blocks || blocks.length === 0) {
 		return (
-			<p className="italic text-gray-500 text-sm">
+			<p className="text-gray-500 text-sm italic">
 				You haven't blocked anyone yet.
 			</p>
 		)

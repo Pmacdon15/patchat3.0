@@ -95,7 +95,7 @@ export default function UserManagementTable({
 										type="number"
 									/>
 									<button
-										className="btn-primary py-1! text-xs"
+										className="rounded-md bg-blue-600 px-4 py-1 font-medium text-white text-xs hover:opacity-90"
 										type="submit"
 									>
 										Update
