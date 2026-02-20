@@ -3,6 +3,7 @@ CREATE TABLE profiles (
   id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
   username TEXT UNIQUE NOT NULL,
   display_name TEXT,
+  email TEXT,
   avatar_url TEXT,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
@@ -101,8 +102,8 @@ INSERT INTO rooms (name, is_private) VALUES ('General', false);
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS trigger AS $$
 BEGIN
-  INSERT INTO public.profiles (id, username, display_name, avatar_url)
-  VALUES (new.id, new.raw_user_meta_data->>'username', new.raw_user_meta_data->>'full_name', new.raw_user_meta_data->>'avatar_url');
+  INSERT INTO public.profiles (id, username, display_name, email, avatar_url)
+  VALUES (new.id, new.raw_user_meta_data->>'username', new.raw_user_meta_data->>'full_name', new.email, new.raw_user_meta_data->>'avatar_url');
   
   INSERT INTO public.user_settings (user_id)
   VALUES (new.id);

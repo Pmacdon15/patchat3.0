@@ -1,59 +1,48 @@
 'use client'
 
-import { Search } from 'lucide-react'
+import { useDebouncedValue } from '@tanstack/react-pacer'
 import Link from 'next/link'
 import { useState } from 'react'
-import type { Profile } from '@/types'
-import { createClient } from '@/utils/supabase/client'
+import { useFetchUsers } from '@/hooks/hooks'
 import Avatar from './Avatar'
 
 export default function UserSearch() {
 	const [query, setQuery] = useState('')
-	const [results, setResults] = useState<Profile[]>([])
-	const [loading, setLoading] = useState(false)
-	const supabase = createClient()
 
-	const handleSearch = async (e: React.SubmitEvent<HTMLFormElement>) => {
-		e.preventDefault()
-		if (!query.trim()) return
+	const [debouncedQuery] = useDebouncedValue(query, {
+		wait: 500,
+	})
 
-		setLoading(true)
-		const { data } = await supabase
-			.from('profiles')
-			.select('*')
-			.ilike('username', `%${query}%`)
-			.limit(5)
+	const { data: results, isLoading } = useFetchUsers(debouncedQuery)
 
-		setResults(data || [])
-		setLoading(false)
+	const handleTyping = (query: string) => {
+		setQuery(query)
 	}
+
+	const displayResults = query ? results : []
 
 	return (
 		<div className="w-full">
-			<form className="relative mb-4" onSubmit={handleSearch}>
+			<div className="relative mb-4">
 				<input
-					className="input-field pr-10"
-					onChange={(e) => setQuery(e.target.value)}
+					className="pr-10 rounded-md p-2"
+					onChange={(e) => {
+						handleTyping(e.target.value)
+					}}
 					placeholder="Search users by username..."
 					type="text"
 					value={query}
 				/>
-				<button
-					className="absolute top-2.5 right-3 text-gray-400"
-					type="submit"
-				>
-					<Search size={18} />
-				</button>
-			</form>
+			</div>
 
-			{loading && (
+			{isLoading && query && (
 				<p className="text-center text-gray-500 text-sm">
 					Searching...
 				</p>
 			)}
 
 			<div className="space-y-2">
-				{results.map((user) => (
+				{displayResults?.map((user) => (
 					<Link
 						className="group flex items-center gap-3 rounded-lg border border-gray-100 p-3 transition hover:border-primary-200 hover:bg-primary-50"
 						href={`/messages/${user.id}`}
@@ -73,7 +62,7 @@ export default function UserSearch() {
 						</div>
 					</Link>
 				))}
-				{query && results.length === 0 && !loading && (
+				{query && results?.length === 0 && !isLoading && (
 					<p className="text-center text-gray-500 text-sm">
 						No users found.
 					</p>

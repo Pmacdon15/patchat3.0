@@ -7,6 +7,7 @@ import {
 	NavWrapper,
 	SidebarWrapper,
 } from '@/components/LayoutWrappers'
+import Providers from '@/components/providers/providers'
 import type { Profile } from '@/types'
 import { createClient } from '@/utils/supabase/server'
 
@@ -140,7 +141,7 @@ export default function RootLayout({
 					</Suspense>
 					<main className="flex min-h-0 w-full flex-1 flex-col items-center overflow-hidden pt-16 md:pt-14">
 						<div className="flex min-h-0 w-full max-w-6xl flex-1 flex-col px-6 md:px-2">
-							{children}
+							<Providers>{children}</Providers>
 							<Suspense>
 								<FooterWrapper userPromise={userPromise} />
 							</Suspense>
