@@ -2,11 +2,11 @@ import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Suspense } from 'react'
 import './globals.css'
+import Footer from '@/components/Footer'
 import { NavWrapper, SidebarWrapper } from '@/components/LayoutWrappers'
 import Providers from '@/components/providers/providers'
 import type { Profile } from '@/types'
 import { createClient } from '@/utils/supabase/server'
-import Footer from '@/components/Footer'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',

@@ -23,9 +23,9 @@ export default function UserSearch() {
 
 	return (
 		<div className="w-full">
-			<div className="relative mb-4">
+			<div className="mb-4">
 				<input
-					className="rounded-md p-2 pr-10"
+					className="rounded-md p-2"
 					onChange={(e) => {
 						handleTyping(e.target.value)
 					}}
@@ -41,7 +41,7 @@ export default function UserSearch() {
 				</p>
 			)}
 
-			<div className="space-y-2">
+			<div className="">
 				{displayResults?.map((user) => (
 					<Link
 						className="group flex items-center gap-3 rounded-lg border border-gray-100 p-3 transition hover:border-primary-200 hover:bg-primary-50"

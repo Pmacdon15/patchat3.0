@@ -1,43 +1,18 @@
 import { Suspense } from 'react'
+import OptionsCard from '@/components/cards/options-cards'
 import HomeHeader from '@/components/headers/home-header'
-import UserSearch from '@/components/UserSearch'
 
 export default function HomePage() {
 	return (
-		<div className="max-w-4xl">
+		<div className="p-2">
 			<Suspense>
 				<HomeHeader />
 			</Suspense>
 
-			<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-				<div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-neutral-800">
-					<h2 className="mb-4 flex items-center gap-2 font-semibold text-xl">
-						<span className="h-6 w-2 rounded-full bg-primary-400"></span>
-						Public Rooms
-					</h2>
-					<p className="mb-4 text-gray-600">
-						Join current conversations or create your own room to
-						discuss topics with everyone.
-					</p>
-					<button
-						className="w-full rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:opacity-90"
-						type="button"
-					>
-						Browse All Rooms
-					</button>
-				</div>
+			<div className="flex flex-wrap gap-16 px-16 lg:gap-8">
+				<OptionsCard />
 
-				<div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-neutral-800">
-					<h2 className="mb-4 flex items-center gap-2 font-semibold text-xl">
-						<span className="h-6 w-2 rounded-full bg-primary-400"></span>
-						Private Messages
-					</h2>
-					<p className="mb-4 text-gray-600">
-						Connect one-on-one with other users. Your privacy is
-						protected by your settings.
-					</p>
-					<UserSearch />
-				</div>
+				<OptionsCard typeOfMessage="private" />
 			</div>
 		</div>
 	)
