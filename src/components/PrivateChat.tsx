@@ -136,8 +136,8 @@ export default function PrivateChat({
 	}
 
 	return (
-		<div className="flex h-full flex-1 flex-col overflow-hidden rounded-lg border border-gray-200 bg-white p-0 dark:border-neutral-800">
-			<div className="flex-1 space-y-4 overflow-y-auto p-3 md:p-4">
+		<div className="flex max-h-145 w-full flex-1 flex-col overflow-hidden rounded-lg border border-gray-200 bg-white md:max-h-196 dark:border-neutral-800">
+			<div className="flex-1 space-y-4 overflow-y-auto">
 				{messages.map((message) => (
 					<div
 						className={`flex ${message.sender_id === currentUserId ? 'flex-row-reverse' : 'flex-row'} items-end gap-2`}
@@ -176,7 +176,6 @@ export default function PrivateChat({
 				))}
 				<div ref={messagesEndRef} />
 			</div>
-
 			<form
 				className="flex gap-2 border-primary-100 border-t p-3 md:p-4"
 				onSubmit={sendMessage}

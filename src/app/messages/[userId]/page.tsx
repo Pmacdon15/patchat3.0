@@ -29,7 +29,7 @@ export default function PrivateMessagePage(
 		})
 
 	return (
-		<div className="flex h-full flex-col">
+		<div className="mt-8 flex h-full w-full flex-col">
 			<Suspense
 				fallback={<div className="h-14 animate-pulse bg-gray-100" />}
 			>
