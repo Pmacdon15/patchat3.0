@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
 	images:{
 		remotePatterns:[{
 			protocol:'https',
-			hostname:'https://lh3.googleusercontent.com',
-			pathname:'*'
+			hostname:'lh3.googleusercontent.com',
+			pathname:'/**'
 		}],
 		
 	}
