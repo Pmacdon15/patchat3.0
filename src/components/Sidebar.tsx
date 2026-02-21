@@ -18,6 +18,7 @@ export default function Sidebar({
 }) {
 	const rooms = use(roomsPromise)
 	const userProfile = use(userProfilePromise)
+	console.log('User Profile', userProfile)
 	const directMessages = use(directMessagesPromise)
 	const pathname = usePathname()
 	const [isCreatingRoom, setIsCreatingRoom] = useState(false)
