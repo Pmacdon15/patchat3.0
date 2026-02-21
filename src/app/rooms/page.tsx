@@ -17,7 +17,7 @@ export default function RoomsPage() {
 	)
 
 	return (
-		<div className="mx-auto w-full max-w-4xl p-6">
+		<div className="mx-auto w-full max-w-4xl p-6 pt-16">
 			<RoomsHeader />
 
 			<Suspense fallback={<div>Loading the lobby...</div>}>
