@@ -11,7 +11,7 @@ export default function HomePage() {
 		.then(({ data }) => data.user?.id || '')
 
 	return (
-		<div className="">
+		<div className="mt-8">
 			<Suspense>
 				<HomeHeader />
 			</Suspense>

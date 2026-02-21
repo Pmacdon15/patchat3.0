@@ -66,6 +66,7 @@ CREATE POLICY "Users update own profile" ON profiles FOR UPDATE TO authenticated
 
 -- Settings
 CREATE POLICY "Users view own settings" ON user_settings FOR SELECT TO authenticated USING (auth.uid() = user_id);
+CREATE POLICY "Users can view others PM status" ON user_settings FOR SELECT TO authenticated USING (true);
 CREATE POLICY "Users update own settings" ON user_settings FOR UPDATE TO authenticated USING (auth.uid() = user_id);
 
 -- Rooms
@@ -86,7 +87,9 @@ CREATE POLICY "Users send PMs" ON private_messages FOR INSERT TO authenticated W
 );
 
 -- Blocks
-CREATE POLICY "Users manage own blocks" ON blocks FOR ALL TO authenticated USING (auth.uid() = blocker_id);
+CREATE POLICY "Users view blocks they are involved in" ON blocks FOR SELECT TO authenticated USING (auth.uid() = blocker_id OR auth.uid() = blocked_id);
+CREATE POLICY "Users manage own blocks" ON blocks FOR INSERT TO authenticated WITH CHECK (auth.uid() = blocker_id);
+CREATE POLICY "Users delete own blocks" ON blocks FOR DELETE TO authenticated USING (auth.uid() = blocker_id);
 
 -- 5. THE FAIL-SAFE TRIGGER FUNCTION
 CREATE OR REPLACE FUNCTION public.handle_new_user()
@@ -116,3 +119,16 @@ DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+
+-- Enable Realtime for specific tables
+-- 1. Create the publication if it doesn't exist
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_publication WHERE pubname = 'supabase_realtime') THEN
+    CREATE PUBLICATION supabase_realtime;
+  END IF;
+END $$;
+
+-- 2. Add tables to the publication
+ALTER PUBLICATION supabase_realtime ADD TABLE messages;
+ALTER PUBLICATION supabase_realtime ADD TABLE private_messages;

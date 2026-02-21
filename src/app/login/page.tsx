@@ -3,7 +3,7 @@ import { login, signInWithGoogle, signup } from '@/actions/auth'
 
 export default function LoginPage() {
 	return (
-		<div className="mx-auto flex min-h-screen w-full flex-1 flex-col justify-center gap-2 px-8 sm:max-w-md">
+		<div className="mx-auto flex w-full flex-1 flex-col justify-center gap-2 md:px-8 sm:max-w-md mt-8">
 			<div className="rounded-lg border border-gray-200 bg-white p-8 shadow-xl dark:border-neutral-800">
 				<h1 className="mb-8 text-center font-bold text-2xl text-primary-900">
 					Welcome to PatChat
