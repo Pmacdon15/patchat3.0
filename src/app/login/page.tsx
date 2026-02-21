@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { login, signup, signInWithGoogle } from '@/actions/auth'
+import { login, signInWithGoogle, signup } from '@/actions/auth'
 
 export default function LoginPage() {
 	return (
@@ -92,18 +92,22 @@ export default function LoginPage() {
 
 					<div className="relative my-4">
 						<div className="absolute inset-0 flex items-center">
-							<div className="w-full border-t border-gray-300"></div>
+							<div className="w-full border-gray-300 border-t"></div>
 						</div>
 						<div className="relative flex justify-center text-sm">
-							<span className="bg-white px-2 text-gray-500">Or continue with</span>
+							<span className="bg-white px-2 text-gray-500">
+								Or continue with
+							</span>
 						</div>
 					</div>
-
+				</form>
+				<div className="w-full">
 					<button
-						className="flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 transition hover:bg-gray-50"
-						formAction={signInWithGoogle}
+						className="mx-auto mb-8 flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 transition hover:bg-gray-50"
+						onClick={signInWithGoogle}
 						type="submit"
 					>
+						{/** biome-ignore lint/a11y/noSvgWithoutTitle: in Dev */}
 						<svg className="h-5 w-5" viewBox="0 0 24 24">
 							<path
 								d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -124,20 +128,20 @@ export default function LoginPage() {
 						</svg>
 						Sign in with Google
 					</button>
+				</div>
 
-					<Link
-						className="text-center text-primary-600 text-sm hover:underline"
-						href="/forgot-password"
-					>
-						Forgot password?
-					</Link>
+				<Link
+					className="text-center text-primary-600 text-sm hover:underline"
+					href="/forgot-password"
+				>
+					Forgot password?
+				</Link>
 
-					{/* {searchParams?.message && (
+				{/* {searchParams?.message && (
 						<p className="mt-4 rounded bg-primary-50 p-4 text-center text-primary-800 text-sm">
 							{searchParams.message}
 						</p>
 					)} */}
-				</form>
 			</div>
 		</div>
 	)
