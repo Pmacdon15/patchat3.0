@@ -26,10 +26,10 @@ export async function signInWithGoogle() {
 
 	const { data, error } = await supabase.auth.signInWithOAuth({
 		provider: 'google',
-		options: {
-			redirectTo:
-				'https://lsovuldxbdzrevyzwztg.supabase.co/auth/v1/callback',
-		},
+		// options: {
+		// 	redirectTo:
+		// 		'https://lsovuldxbdzrevyzwztg.supabase.co/auth/v1/callback',
+		// },
 	})
 
 	if (error) {
