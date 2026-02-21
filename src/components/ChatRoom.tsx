@@ -91,8 +91,8 @@ export default function ChatRoom({
 	}
 
 	return (
-		<div className="flex max-h-196 flex-1 flex-col overflow-hidden rounded-lg border border-gray-200 bg-white p-2 dark:border-neutral-800">
-			<div className="flex-1 space-y-4 overflow-y-auto p-3 md:p-4">
+		<div className="flex max-h-160 w-full flex-1 flex-col overflow-hidden rounded-lg border border-gray-200 bg-white md:max-h-196 dark:border-neutral-800">
+			<div className="flex-1 space-y-4 overflow-y-auto">
 				{messages.map((message) => (
 					<div
 						className={`flex ${message.user_id === userId ? 'flex-row-reverse' : 'flex-row'} items-end gap-2`}

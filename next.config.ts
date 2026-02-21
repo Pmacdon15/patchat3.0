@@ -4,14 +4,15 @@ const nextConfig: NextConfig = {
 	/* config options here */
 	reactCompiler: true,
 	cacheComponents: true,
-	images:{
-		remotePatterns:[{
-			protocol:'https',
-			hostname:'lh3.googleusercontent.com',
-			pathname:'/**'
-		}],
-		
-	}
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'lh3.googleusercontent.com',
+				pathname: '/**',
+			},
+		],
+	},
 }
 
 export default nextConfig

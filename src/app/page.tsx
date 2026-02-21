@@ -11,12 +11,12 @@ export default function HomePage() {
 		.then(({ data }) => data.user?.id || '')
 
 	return (
-		<div className="p-2">
+		<div className="">
 			<Suspense>
 				<HomeHeader />
 			</Suspense>
 
-			<div className="flex flex-wrap gap-16 lg:gap-8">
+			<div className="flex flex-wrap justify-center gap-16 lg:gap-8">
 				<OptionsCard />
 				<Suspense>
 					<OptionsCard
