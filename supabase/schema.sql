@@ -1,5 +1,5 @@
 -- 1. CLEANUP (Wipe the slate clean)
--- DROP TABLE IF EXISTS blocks, private_messages, messages, rooms, user_settings, profiles CASCADE;
+DROP TABLE IF EXISTS blocks, private_messages, messages, rooms, user_settings, profiles CASCADE;
 
 -- 2. TABLES
 CREATE TABLE profiles (

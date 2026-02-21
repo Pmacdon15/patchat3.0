@@ -101,8 +101,8 @@ export default function LoginPage() {
 
 					<button
 						className="flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 transition hover:bg-gray-50"
-						onClick={signInWithGoogle}
-						type="button"
+						formAction={signInWithGoogle}
+						type="submit"
 					>
 						<svg className="h-5 w-5" viewBox="0 0 24 24">
 							<path

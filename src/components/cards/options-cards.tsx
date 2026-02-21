@@ -7,7 +7,7 @@ export default function OptionsCard({
 	typeOfMessage?: 'public' | 'private'
 }) {
 	return (
-		<div className="w-96 rounded-lg border border-gray-200 bg-white p-6 dark:border-neutral-800">
+		<div className="min-w-96 max-w-96 rounded-lg border border-gray-200 bg-white p-6 dark:border-neutral-800">
 			<h2 className="mb-4 flex items-center gap-2 font-semibold text-xl">
 				{/* <span className="h-6 w-6 rounded-full bg-primary-400"></span> */}
 				{typeOfMessage === 'public'

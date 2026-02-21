@@ -9,7 +9,7 @@ export default function HomePage() {
 				<HomeHeader />
 			</Suspense>
 
-			<div className="flex flex-wrap gap-16 px-16 lg:gap-8">
+			<div className="flex flex-wrap gap-16 lg:gap-8">
 				<OptionsCard />
 
 				<OptionsCard typeOfMessage="private" />
