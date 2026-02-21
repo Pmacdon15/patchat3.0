@@ -21,12 +21,34 @@ export async function login(formData: FormData) {
 	return redirect('/')
 }
 
+export async function signInWithGoogle() {
+	const supabase = await createClient()
+
+	const { data, error } = await supabase.auth.signInWithOAuth({
+		provider: 'google',
+		options: {
+			redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`,
+		},
+	})
+
+	if (error) {
+		return redirect(`/login?message=${encodeURIComponent(error.message)}`)
+	}
+
+	if (data.url) {
+		return redirect(data.url)
+	}
+
+	return redirect('/')
+}
+
 export async function signup(formData: FormData) {
 	const supabase = await createClient()
 
 	const email = formData.get('email') as string
 	const password = formData.get('password') as string
 	const username = formData.get('username') as string
+	const full_name = formData.get('full_name') as string
 
 	const { error } = await supabase.auth.signUp({
 		email,
@@ -34,6 +56,7 @@ export async function signup(formData: FormData) {
 		options: {
 			data: {
 				username,
+				full_name,
 			},
 		},
 	})

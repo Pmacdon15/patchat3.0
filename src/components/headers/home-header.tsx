@@ -18,8 +18,8 @@ export default async function HomeHeader() {
 				{profile?.display_name || profile?.username || 'User'}!
 			</h1>
 			<p className="mt-2 text-gray-600">
-				Select a chat room from the sidebar or start a private message
-				to get started.
+			View Chat Room or login to get started.
+			
 			</p>
 		</header>
 	)

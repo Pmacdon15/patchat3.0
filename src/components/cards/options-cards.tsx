@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import UserSearch from '../UserSearch'
 
 export default function OptionsCard({
@@ -26,12 +27,14 @@ export default function OptionsCard({
 				</p>
 			)}
 			{typeOfMessage === 'public' ? (
-				<button
-					className="mb-4 w-full rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:opacity-90"
-					type="button"
-				>
-					Browse All Rooms
-				</button>
+				<Link href={'/rooms'}>
+					<button
+						className="mb-4 w-full rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:opacity-90"
+						type="button"
+					>
+						Browse All Rooms
+					</button>
+				</Link>
 			) : (
 				<UserSearch />
 			)}
