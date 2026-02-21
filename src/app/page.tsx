@@ -1,8 +1,15 @@
 import { Suspense } from 'react'
 import OptionsCard from '@/components/cards/options-cards'
 import HomeHeader from '@/components/headers/home-header'
+import { createClient } from '@/utils/supabase/server'
 
 export default function HomePage() {
+	const supabasePromise = createClient()
+
+	const userIdPromise = supabasePromise
+		.then((supabase) => supabase.auth.getUser())
+		.then(({ data }) => data.user?.id || '')
+
 	return (
 		<div className="p-2">
 			<Suspense>
@@ -11,8 +18,12 @@ export default function HomePage() {
 
 			<div className="flex flex-wrap gap-16 lg:gap-8">
 				<OptionsCard />
-
-				<OptionsCard typeOfMessage="private" />
+				<Suspense>
+					<OptionsCard
+						typeOfMessage="private"
+						userIdPromise={userIdPromise}
+					/>
+				</Suspense>
 			</div>
 		</div>
 	)
