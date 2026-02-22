@@ -7,7 +7,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "biome check --write --unsafe",
-		"format": "biome format --write"
+		"format": "biome format --write",
+		"postbuild": "next-sitemap --config next-sitemap.config.cjs"
 	},
 	"dependencies": {
 		"@supabase/ssr": "^0.8.0",
@@ -16,6 +17,7 @@
 		"@tanstack/react-query": "^5.90.21",
 		"lucide-react": "^0.575.0",
 		"next": "16.1.6",
+		"next-sitemap": "^4.2.3",
 		"react": "19.2.4",
 		"react-dom": "19.2.4",
 		"supabase": "^2.76.11",

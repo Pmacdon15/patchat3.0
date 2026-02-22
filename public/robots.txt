@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.patchat.ca
+
+# Sitemaps
+Sitemap: https://www.patchat.ca/sitemap.xml
